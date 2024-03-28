@@ -14,9 +14,8 @@ This repository hosts a research project focused on smart contract generation an
 ## Relevant Information
 
 - **Authors:** [Shawal Khalid, Chris Brown]
-- **Email:** [Your Email Address]
 - **Affiliation:** [Virginia Tech]
-- **Conference Submission:** This research project is being submitted to the VL/HCC conference. Stay tuned for updates and insights from our findings.
+- **Conference Submission:** This research project is being submitted to the VL/HCC 2024 conference. Stay tuned for updates and insights from our findings.
 
 
 ## Feedback
