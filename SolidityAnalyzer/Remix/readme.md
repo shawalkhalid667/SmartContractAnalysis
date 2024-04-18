@@ -1,6 +1,6 @@
 Contract: multisig.sol
 
-Block timestamp:
+##Block timestamp:
 Use of "block.timestamp": "block.timestamp" can be influenced by miners to a certain degree. That means that a miner can "choose" the block.timestamp, to a certain degree, to change the outcome of a transaction in the mined block.
 more
 Pos: 36:15:
