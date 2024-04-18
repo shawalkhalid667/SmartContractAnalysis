@@ -26,5 +26,6 @@ Use "assert(x)" if you never ever want x to be false, not in any circumstance (a
 more
 Pos: 18:12:
 
+Solhint:
 Avoid making time-based decisions in your business logic
 Pos: 16:35
