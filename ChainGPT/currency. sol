@@ -1,0 +1,86 @@
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+// Minimal ERC20 Interface tailored for Uniswap V3 integrations
+interface IERC20Minimal {
+    function balanceOf(address account) external view returns (uint256);
+    function transfer(address recipient, uint256 amount) external returns (bool);
+    function allowance(address owner, address spender) external view returns (uint256);
+    function approve(address spender, uint256 amount) external returns (bool);
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+
+    // Events for comprehensive ERC20 compatibility
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+}
+
+// Custom Currency type representing both native currencies (ETH) and ERC20 tokens
+struct Currency {
+    bool isNative;
+    address token;
+}
+
+// CurrencyLibrary for advanced token handling
+library CurrencyLibrary {
+    // Transfers tokens (either native or ERC20) from sender to recipient
+    function transfer(Currency memory self, address from, address to, uint256 value) internal {
+        // If the currency is native (ETH), perform a direct transfer
+        if (self.isNative) {
+            (bool success,) = to.call{value: value}("");
+            require(success, "CurrencyLibrary: ETH_TRANSFER_FAILED");
+        } 
+        // If the currency is an ERC20 token, perform a token transfer
+        else {
+            IERC20Minimal(self.token).transferFrom(from, to, value);
+        }
+    }
+
+    // Checks the balance of an address for the specified currency
+    function balanceOf(Currency memory self, address account) internal view returns (uint256) {
+        // If the currency is native (ETH), return the ETH balance
+        if (self.isNative) {
+            return account.balance;
+        } 
+        // If the currency is an ERC20 token, return the token balance
+        else {
+            return IERC20Minimal(self.token).balanceOf(account);
+        }
+    }
+
+    // Returns true if the currency is native (ETH), false otherwise
+    function isNative(Currency memory self) internal pure returns (bool) {
+        return self.isNative;
+    }
+
+    // Returns the address of the ERC20 token (if the currency is a token), or address(0) if the currency is native (ETH)
+    function toId(Currency memory self) internal pure returns (address) {
+        return self.isNative ? address(0) : self.token;
+    }
+
+    // Returns a Currency instance from an address. If the address is address(0), the currency is assumed to be native (ETH)
+    function fromId(address id) internal pure returns (Currency memory) {
+        return id == address(0) ? Currency(true, address(0)) : Currency(false, id);
+    }
+}
+
+// Contract to demonstrate the usage of the above definitions
+contract UniswapV3ERC20Handler {
+    // Store the currency instance (either native or ERC20) in a state variable
+    Currency public currency;
+
+    // Initialize the contract with a currency instance
+    constructor(Currency memory _currency) {
+        currency = _currency;
+    }
+
+    // Function to transfer the specified amount of the currency from the caller to the recipient
+    function transfer(address recipient, uint256 amount) external {
+        CurrencyLibrary.transfer(currency, msg.sender, recipient, amount);
+    }
+
+    // Function to check the balance of the specified account in the currency
+    function balanceOf(address account) external view returns (uint256) {
+        return CurrencyLibrary.balanceOf(currency, account);
+    }
+}
