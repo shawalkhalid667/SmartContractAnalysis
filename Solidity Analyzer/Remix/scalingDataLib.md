@@ -1,7 +1,5 @@
 # Remix Solidity Analyzer Report for ScalingDataLib.sol
 
-## Overview
-
 The report provides an analysis of the `ScalingDataLib.sol` file conducted by Remix Solidity Analyzer. It highlights potential issues, recommendations, and considerations for improving the solidity code.
 
 ## Findings
