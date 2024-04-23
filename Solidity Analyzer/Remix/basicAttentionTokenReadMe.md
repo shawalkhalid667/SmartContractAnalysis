@@ -2,8 +2,6 @@
 
 This README summarizes key points from the RemixIDE solidity analyzer's output, providing insights into potential optimizations and improvements for the ERC-20 token smart contract.
 
-This is a basic implementation of an ERC-20 token smart contract in Solidity. The ERC-20 standard defines a set of rules and functions that a token contract must implement in order to be compatible with the Ethereum ecosystem.
-
 ## Gas Costs
 
 - Some functions in the contract have an infinite gas requirement, which could prevent them from being executed if the gas requirement exceeds the block gas limit. Avoid loops or actions that modify large areas of storage to mitigate this issue.
@@ -28,10 +26,4 @@ This is a basic implementation of an ERC-20 token smart contract in Solidity. Th
 - Gas Optimization: Optimize gas usage to minimize transaction costs by avoiding infinite gas requirements and employing gas-efficient coding practices.
 - Upgradeability: Consider making the contract upgradeable in the future using patterns like the Proxy pattern or upgradeable contract frameworks.
 
-## Contributing
 
-Contributions to improve the smart contract code or the README.md file are welcome! Feel free to submit pull requests.
-
-## License
-
-This smart contract is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
