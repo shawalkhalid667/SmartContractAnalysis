@@ -1,0 +1,85 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+/**
+ * @title IERC20Minimal
+ * @dev Minimal ERC20 interface
+ */
+interface IERC20Minimal {
+    function balanceOf(address account) external view returns (uint256);
+    function transfer(address recipient, uint256 amount) external returns (bool);
+    function allowance(address owner, address spender) external view returns (uint256);
+    function approve(address spender, uint256 amount) external returns (bool);
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+}
+
+/**
+ * @title CurrencyLibrary
+ * @dev Library for handling Currency operations
+ */
+library CurrencyLibrary {
+    enum CurrencyType { NATIVE, ERC20 }
+
+    struct Currency {
+        CurrencyType currencyType;
+        address tokenAddress;
+    }
+
+    function equals(Currency memory self, Currency memory other) internal pure returns (bool) {
+        return self.currencyType == other.currencyType && self.tokenAddress == other.tokenAddress;
+    }
+
+    function greaterThan(Currency memory self, Currency memory other) internal pure returns (bool) {
+        return self.currencyType > other.currencyType || (self.currencyType == other.currencyType && self.tokenAddress > other.tokenAddress);
+    }
+
+    function lessThan(Currency memory self, Currency memory other) internal pure returns (bool) {
+        return self.currencyType < other.currencyType || (self.currencyType == other.currencyType && self.tokenAddress < other.tokenAddress);
+    }
+
+    function greaterThanOrEqualTo(Currency memory self, Currency memory other) internal pure returns (bool) {
+        return equals(self, other) || greaterThan(self, other);
+    }
+
+    function isNative(Currency memory currency) internal pure returns (bool) {
+        return currency.currencyType == CurrencyType.NATIVE;
+    }
+
+    function toId(Currency memory currency) internal pure returns (bytes32) {
+        return keccak256(abi.encode(currency.currencyType, currency.tokenAddress));
+    }
+
+    function fromId(bytes32 currencyId) internal pure returns (Currency memory) {
+        return Currency(CurrencyLibrary.CurrencyType(uint8(currencyId[0])), address(bytes20(currencyId)));
+    }
+
+    function transfer(Currency memory currency, address to, uint256 amount) internal returns (bool) {
+        if (isNative(currency)) {
+            (bool success,) = to.call{value: amount}("");
+            return success;
+        } else {
+            return IERC20Minimal(currency.tokenAddress).transfer(to, amount);
+        }
+    }
+
+    function balanceOf(Currency memory currency, address account) internal view returns (uint256) {
+        if (isNative(currency)) {
+            return account.balance;
+        } else {
+            return IERC20Minimal(currency.tokenAddress).balanceOf(account);
+        }
+    }
+}
+
+contract CurrencyComparison {
+    using CurrencyLibrary for CurrencyLibrary.Currency;
+
+    function compareCurrencies(CurrencyLibrary.Currency memory currency1, CurrencyLibrary.Currency memory currency2) external pure returns (bool equal, bool greater, bool less, bool greaterOrEqual) {
+        equal = currency1.equals(currency2);
+        greater = currency1.greaterThan(currency2);
+        less = currency1.lessThan(currency2);
+        greaterOrEqual = currency1.greaterThanOrEqualTo(currency2);
+    }
+}
