@@ -104,4 +104,7 @@ library Assert {
     require(a.length == b.length, "Array length mismatch");
     bool success = true;
     for (uint i = 0; i < a.length; i++) {
-      if (a[i] != b[i])
+      if (a[i] != b[i]) {
+success = false;
+}
+}
