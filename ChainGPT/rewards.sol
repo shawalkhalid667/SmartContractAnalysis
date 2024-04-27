@@ -1,13 +1,12 @@
 
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
+// Importing SafeMath library from OpenZeppelin to perform mathematical operations safely
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
-// Assuming the existence of a Common DAO contract that has basic functionalities
-import "./CommonDAO.sol";
+// Removed import "./CommonDAO.sol"; as per the request
 
-contract RewardsManager is CommonDAO {
+// Define the contract
+contract RewardsManager {
+    // Using SafeMath for uint256 type to prevent overflow and underflow errors
     using SafeMath for uint256;
 
     // Struct to store user-specific information for calculating rewards
@@ -24,10 +23,10 @@ contract RewardsManager is CommonDAO {
         uint256 quarterNumber;
     }
 
-    // Mapping to store user rewards data
+    // Mapping to store user rewards data. It maps an address to a UserRewards struct.
     mapping(address => UserRewards) private userRewardsData;
 
-    // Mapping to store quarter information
+    // Mapping to store quarter information. It maps a quarter number to a QuarterRewardsInfo struct.
     mapping(uint256 => QuarterRewardsInfo) private quarterInfoData;
 
     // Function to fetch the user rewards struct for a given user
