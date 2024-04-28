@@ -1,3 +1,21 @@
+# Analysis of tornadoCash.sol
+
+## Issues and Suggestions
+
+### Remix:
+1. **Gas Costs:** The function `tornadoCash.verifyProof` has an infinite gas requirement, which can prevent it from being executed if it exceeds the block gas limit. Avoid loops and actions that modify large areas of storage.
+2. **Constant/View/Pure Functions:** Some functions like `tornadoCash.g1Mul`, `tornadoCash.pairing`, and `tornadoCash.checkPairingEquation` are marked as constant but may not be suitable for it.
+
+### Solhint:
+1. **Compiler Version:** The compiler version `^0.8.0` used in the contract does not satisfy the `^0.5.8` semver requirement.
+2. **Contract Name:** Ensure the contract name is in CamelCase.
+3. **Visibility in Function:** Explicitly mark the visibility in functions, especially for Solidity versions below 0.7.0.
+4. **Empty Blocks:** Remove or implement the logic for empty blocks.
+5. **Unused Variables:** Variables like `a2`, `b2`, and `c2` are declared but not used.
+6. **Explicit Visibility of State:** Mark the visibility of state variables explicitly.
+
+
+
 tornadoCash.sol
 ##Chat GPT contract
 ##Remix
