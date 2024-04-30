@@ -13,6 +13,7 @@ This repository hosts a research project focused on smart contract generation an
 
 ## File Locations
 
+- SmartContract dataset final.xlsx: All dataset, with links to every file 
 - `ChainGPT`: Contains smart contract .sol files written by ChainGPT.
 - `ChatGPT`: Contains smart contract .sol files written by ChatGPT.
 - `Gemeni`: Contains smart contract .sol files written by Gemeni.
