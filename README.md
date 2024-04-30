@@ -25,7 +25,6 @@ This repository hosts a research project focused on smart contract generation an
 
 ## Relevant Information
 
-- **Authors:** 
 - **Affiliation:** [Virginia Tech, USA]
 - **Conference Submission:** This research project is being submitted to the VL/HCC 2024 conference. Stay tuned for updates and insights from our findings.
 
