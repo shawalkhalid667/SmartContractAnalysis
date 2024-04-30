@@ -2,7 +2,7 @@
 
 Write a Solidity smart contract named MigrationAgent that facilitates the migration of game assets for participants to a new platform, specifically targeting the EOS blockchain. The contract should define a migration process where participants can register their EOS account names and initiate asset transfer requests. Include the following specifications and functionalities:
 
-Solidity Version: Set the contract to be compatible with Solidity version ^0.4.0.
+Solidity Version: Set the contract to be compatible with Solidity version ^0.8.0.
 
 State Variables and Struct:
 
